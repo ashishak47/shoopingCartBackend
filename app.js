@@ -36,7 +36,9 @@ app.use("/api/*",validateToken);
 
 
 // MongoDb Initialization
-mongoose.connect(`${stage.mongoDBUrl}`);
+mongoose.connect(`${stage.mongoDBUrl}`, { 
+  uri_decode_auth: true 
+  });
 // setting the cf environment variable
 // mongoose.connect(oAppEnv.services.mongodb[0].credentials.uri);
 
