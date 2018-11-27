@@ -1,3 +1,9 @@
+// password encryption
+const bcrypt = require('bcrypt');
+
+const environment = process.env.NODE_ENV || "development";
+const stage = require('../config')[environment];
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -24,15 +30,39 @@ const cartList = new Schema({
 //     location : String
 
 //  });
-const users = mongoose.model(
-  'Users',
+const userSchema = 
   new Schema({
-    userId: String,
-    password: String,
+    userId: {
+      type: 'String',
+      required: true,
+      trim: true,
+      unique: true
+    },
+    password: {
+      type: 'String',
+      required: true,
+      trim: true
+    },
     address: [String],
-  }),
-);
-module.exports.users = users;
+  });
+
+userSchema.pre('save', function(next) {
+  const user = this;
+  if(!user.isModified || !user.isNew) { // don't rehash if it's an old user
+    next();
+  } else {
+    bcrypt.hash(user.password, stage.saltingRounds, function(err, hash) {
+      if (err) {
+        console.log('Error hashing password for user', user.name);
+        next(err);
+      } else {
+        user.password = hash;
+        next();
+      }
+    });
+  }
+});  
+module.exports.users = mongoose.model('Users',userSchema);
 
 module.exports.carts = mongoose.model(
   'Carts',
@@ -47,3 +77,5 @@ module.exports.carts = mongoose.model(
     paymentMode: Boolean,
   }),
 );
+
+
