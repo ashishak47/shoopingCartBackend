@@ -8,7 +8,7 @@ module.exports = {
     production:{
       port : process.env.PORT || 5200,
       saltingRounds : 20,
-      mongoDBUrl : "mongodb://<harshit886>:<bittu%40886>@ds115579.mlab.com:15579/shopping-list",
+      mongoDBUrl : "mongodb://harsh886:harshit886@ds115579.mlab.com:15579/shopping-list",
       JWT_SECRET : "addjsonwebtokensecretherelikeQuiscustodietipsoscustodes"
     }
   }

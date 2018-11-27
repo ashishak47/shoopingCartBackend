@@ -36,9 +36,7 @@ app.use("/api/*",validateToken);
 
 
 // MongoDb Initialization
-mongoose.connect(`${stage.mongoDBUrl}`, { 
-  useNewUrlParser: true
-  });
+mongoose.connect(`${stage.mongoDBUrl}`);
 // setting the cf environment variable
 // mongoose.connect(oAppEnv.services.mongodb[0].credentials.uri);
 
