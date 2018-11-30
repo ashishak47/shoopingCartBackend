@@ -47,6 +47,7 @@ const userSchema =
   });
 
 userSchema.pre('save', function(next) {
+  console.log("yes");
   const user = this;
   if(!user.isModified || !user.isNew) { // don't rehash if it's an old user
     next();
